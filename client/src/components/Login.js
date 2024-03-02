@@ -50,8 +50,24 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            if (formData.associateId === "ram23") {
-                navigate("/admin")
+            if (formData.associateId === "admin") {
+                const response = await axios.post('http://localhost:8080/admin/login', formData)
+                    .then((res) => {
+                        console.log(res.data);
+
+                        if (res.data.message === "Email Not exists") {
+                            toast.error("Email Not Exists")
+                        }
+                        else if (res.data.message === "Login Success") {
+                            toast.success("Login Success ");
+                            setTimeout(() => {
+                                navigate("/admin");
+                            }, 2000);
+                        }
+                        else {
+                            toast.error("Incorrect Email or Password")
+                        }
+                    }, fail => console.error(fail))
             }
             else {
 

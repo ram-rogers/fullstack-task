@@ -36,6 +36,11 @@ public class AdminController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@GetMapping("/test")
+	public String Test() {
+		return "Hello";
+	}
+	
 	@PostMapping("/register")
 	public String addUser(@RequestBody AdminUser userDTO) {
 		AdminUser user = new AdminUser(

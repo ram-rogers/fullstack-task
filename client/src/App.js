@@ -2,7 +2,7 @@ import React from 'react'
 import Login from './components/Login'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Home from './components/Home'
-import AdminLogin from './components/AdminLogin'
+import AdminDashboard from './components/AdminDashboard'
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
             <Route path="login" element={<Login />} />
             {/* <Route path="register" element={<Register />} /> */}
             <Route path="/home" element={<Home />} />
-            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminDashboard />} />
 
             {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             {/* <Route path="/conform" element={<ConformOtp />} /> */}

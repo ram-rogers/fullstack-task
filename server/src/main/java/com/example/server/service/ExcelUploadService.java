@@ -18,6 +18,11 @@ public class ExcelUploadService {
     public static boolean isValidExcelFile(MultipartFile file){
         return Objects.equals(file.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" );
     }
+    
+    public static String convertToString(int str) {
+    	return String.valueOf(str);
+    }
+    
    public static List<UserEntity> getCustomersDataFromExcel(InputStream inputStream){
         List<UserEntity> customers = new ArrayList<>();
        try {
@@ -36,20 +41,20 @@ public class ExcelUploadService {
                    Cell cell = cellIterator.next();
                    switch (cellIndex){
                        case 0 -> user.setId((int) cell.getNumericCellValue());
-                       case 1 -> user.setAssociateId(cell.getStringCellValue());
+                       case 1 -> user.setAssociateId(convertToString((int)cell.getNumericCellValue()));
                        case 2 -> user.setName(cell.getStringCellValue());
                        case 3 -> user.setEmail(cell.getStringCellValue());
                        case 4 -> user.setPassword(cell.getStringCellValue());
-                       case 5 -> user.setIsRegistered((int) cell.getNumericCellValue());
-                       case 6 -> user.setEmailVerified((int) cell.getNumericCellValue());
-                       case 7 -> user.setForgotPassword((int) cell.getNumericCellValue());
+                       case 5 -> user.setIsRegistered(0);
+                       case 6 -> user.setEmailVerified(0);
+                       case 7 -> user.setForgotPassword(0);    
                        default -> {
                        } 
                    }
                    cellIndex++;
-               }  
+               }         
                customers.add(user);
-           }
+           }       
        } catch (IOException e) {
            e.getStackTrace();
        }
