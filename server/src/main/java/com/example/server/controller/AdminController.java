@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,31 +48,42 @@ public class AdminController {
 				userDTO.getId(),
 				userDTO.getAssociateId(),
 				this.passwordEncoder.encode(userDTO.getPassword())
-		);
+		);   
 		
 		adminRepo.save(user);
 		return "admin added";
 	}
+	
+	@GetMapping("/find/{username}")
+	AdminUser getAdminById(@PathVariable String associateId) {
+		return adminRepo.findByAssociateId(associateId);
+	}
+	
+	@GetMapping("/check/{id}")
+	public AdminUser getUserById(@PathVariable String id) {
+		return adminRepo.findByAssociateId(id);
+	}
 
 	
+	   
 	
 	@PostMapping(path="/login")
-	public ResponseEntity<?> loginUser(@RequestBody AdminUser adminUser){
+	public ResponseEntity<?> adminLogin(@RequestBody AdminUser adminUser){
 		Response response = adminService.adminLogin(adminUser);
 		return ResponseEntity.ok(response);
 	}  
 	
 	
-	@PostMapping("/upload-customers-data")
-    public ResponseEntity<?> uploadCustomersData(@RequestParam("file")MultipartFile file){
-		adminService.saveCustomersToDatabase(file);
+	@PostMapping("/upload-associates-data")
+    public ResponseEntity<?> uploadAssociatesData(@RequestParam("file")MultipartFile file){
+		adminService.saveAssociatesToDatabase(file);
         return ResponseEntity
                 .ok(Map.of("Message" , " Users data uploaded and saved to database successfully"));
     }
   
-    @GetMapping     
-    public ResponseEntity<List<UserEntity>> getCustomers(){
-        return new ResponseEntity<>(adminService.getCustomers(), HttpStatus.FOUND);
+    @GetMapping("/list-associates")     
+    public ResponseEntity<List<UserEntity>> getAssociates(){
+        return new ResponseEntity<>(adminService.getAssociates(), HttpStatus.FOUND);
     }
 
 }

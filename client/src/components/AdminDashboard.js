@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         formData.append('file', file);
 
         try {
-            const response = await axios.post('http://localhost:8080/admin/upload-customers-data', formData, {
+            const response = await axios.post('http://localhost:8080/admin/upload-associates-data', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

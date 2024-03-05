@@ -26,31 +26,56 @@ const Login = () => {
     const [associateIdExists, setAssociateIdExists] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+
     const handleCheckAssociateId = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.get(`http://localhost:8080/user/${formData.associateId}`);
-            console.log(formData.associateId)
-            console.log(response)
-            if (response?.data) {
-                toast.success("User Found")
-                setAssociateIdExists(true);
-                setErrorMessage('');
-            } else {
-                setAssociateIdExists(false);
-                setErrorMessage('Invalid associate ID');
-                toast.error('Invalid associate ID');
+        e.preventDefault(e)
+        if (formData.associateId === "admin") {
+            try {
+                const response = await axios.get(`http://localhost:8080/admin/check/${formData.associateId}`);
+                console.log(formData.associateId)
+                console.log(response)
+                if (response?.data) {
+                    // toast.success("User Found")
+                    setAssociateIdExists(true);
+                    setErrorMessage('');
+                } else {
+                    setAssociateIdExists(false);
+                    setErrorMessage('Invalid associate ID');
+                    toast.error('Invalid associate ID');
+                }
+            } catch (error) {
+                console.error('Error checking associate ID:', error);
+                toast.error('An error occurred. Please try again.');
             }
-        } catch (error) {
-            console.error('Error checking associate ID:', error);
-            toast.error('An error occurred. Please try again.');
         }
-    };
+
+        else {
+            try {
+                const response = await axios.get(`http://localhost:8080/user/check/${formData.associateId}`);
+                console.log(formData.associateId)
+                console.log(response)
+                if (response?.data) {
+                    // toast.success("User Found")
+                    setAssociateIdExists(true);
+                    setErrorMessage('');
+                } else {
+                    setAssociateIdExists(false);
+                    setErrorMessage('Invalid associate ID');
+                    toast.error('Invalid associate ID');
+                }
+            } catch (error) {
+                console.error('Error checking associate ID:', error);
+                toast.error('An error occurred. Please try again.');
+            }
+
+        }
+    }
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        try {
-            if (formData.associateId === "admin") {
+        if (formData.associateId === "admin") {
+            try {
                 const response = await axios.post('http://localhost:8080/admin/login', formData)
                     .then((res) => {
                         console.log(res.data);
@@ -68,11 +93,16 @@ const Login = () => {
                             toast.error("Incorrect Email or Password")
                         }
                     }, fail => console.error(fail))
+
             }
-            else {
+            catch (error) {
+                toast.error('Login failed ' + error);
+            }
+        }
 
-
-                const response = await axios.post('http://localhost:8080/login', formData)
+        else {
+            try {
+                const response = await axios.post('http://localhost:8080/user/login', formData)
                     .then((res) => {
                         console.log(res.data);
 
@@ -91,10 +121,17 @@ const Login = () => {
                     }, fail => console.error(fail))
 
             }
-        } catch (error) {
-            toast.error('Login failed ' + error);
+            catch (error) {
+                toast.error('Login failed ' + error);
+            }
+
         }
-    };
+    }
+
+
+
+
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

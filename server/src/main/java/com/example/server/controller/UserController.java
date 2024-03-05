@@ -32,7 +32,12 @@ public class UserController {
 	private UserRepo userRepo;
 	
 	
-	@PostMapping(path="/save")
+	@GetMapping("/check/{id}")
+	public UserEntity getUserById(@PathVariable String id) {
+		return userRepo.findByAssociateId(id);
+	}
+	
+	@PostMapping(path="/register")
 	public Response addUser(@RequestBody UserDTO userDTO) {
 		return userService.addUser(userDTO);
 	}
@@ -42,11 +47,16 @@ public class UserController {
 		return userService.viewUsers();
 	}
 	
-	@GetMapping("/{username}")
-	UserEntity getUserById(@PathVariable String associateId) {
-		return userRepo.findByAssociateId(associateId);
-	}
 	
+//	public ResponseEntity<String> checkIdExists(@PathVariable String id) {
+//        boolean exists = userService.checkIfIdExists(id);
+//        if (exists) {
+//            return ResponseEntity.ok("ID exists in the table.");
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }  
+	   
 	@PostMapping(path="/login")
 	public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO){
 		Response loginResponse = userService.loginUser(loginDTO);

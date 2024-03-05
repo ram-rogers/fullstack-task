@@ -26,7 +26,7 @@ public class UserEntity {
 	@Id
 //	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
-	@Column(name="associate_id", length = 255)
+
 	private String associateId;
 	@Column(name="name", length = 255)
 	private String name;

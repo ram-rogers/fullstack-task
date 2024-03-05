@@ -3,6 +3,7 @@ import Login from './components/Login'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Home from './components/Home'
 import AdminDashboard from './components/AdminDashboard'
+import NoPage from './components/NoPage'
 
 const App = () => {
   return (
@@ -19,7 +20,7 @@ const App = () => {
 
             {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
             {/* <Route path="/conform" element={<ConformOtp />} /> */}
-            {/* <Route path="*" element={<NoPage />} /> */}
+            <Route path="*" element={<NoPage />} />
           </Routes>
         </Router>
       </header>

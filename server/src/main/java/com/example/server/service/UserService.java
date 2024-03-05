@@ -14,5 +14,7 @@ public interface UserService {
 
 	Response loginUser(LoginDTO loginDTO);
 
+	UserEntity getUserById(String id);
+	
 	List<UserEntity> viewUsers();
 }

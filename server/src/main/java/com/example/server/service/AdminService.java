@@ -23,13 +23,16 @@ public class AdminService {
 	
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder; 
+	
+	public AdminUser getUserById(String id) {
+		return adminRepo.findByAssociateId(id);
+	}
 	
 
 	public Response adminLogin(AdminUser adminUser) {
 		
-		String msg = "";
-		AdminUser admin1 = adminRepo.findByAssociateId(adminUser.getAssociateId());
+		AdminUser admin1 = getUserById(adminUser.getAssociateId());
 		  
 		
 		if(admin1 != null) {  
@@ -61,18 +64,18 @@ public class AdminService {
 	@Autowired
 	private UserRepo userRepo;
 
-    public void saveCustomersToDatabase(MultipartFile file){
+    public void saveAssociatesToDatabase(MultipartFile file){
         if(ExcelUploadService.isValidExcelFile(file)){
             try {
-                List<UserEntity> customers = ExcelUploadService.getCustomersDataFromExcel(file.getInputStream());
-                userRepo.saveAll(customers);
+                List<UserEntity> associates = ExcelUploadService.getAssociatesDataFromExcel(file.getInputStream());
+                userRepo.saveAll(associates);
             } catch (IOException e) {
                 throw new IllegalArgumentException("The file is not a valid excel file");
             }
         }
     }
 
-    public List<UserEntity> getCustomers(){
+    public List<UserEntity> getAssociates(){
         return userRepo.findAll();
     }
 

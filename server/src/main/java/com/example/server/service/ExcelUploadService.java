@@ -23,8 +23,8 @@ public class ExcelUploadService {
     	return String.valueOf(str);
     }
     
-   public static List<UserEntity> getCustomersDataFromExcel(InputStream inputStream){
-        List<UserEntity> customers = new ArrayList<>();
+   public static List<UserEntity> getAssociatesDataFromExcel(InputStream inputStream){
+        List<UserEntity> associates = new ArrayList<>();
        try {
            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
            XSSFSheet sheet = workbook.getSheet("users");
@@ -53,12 +53,12 @@ public class ExcelUploadService {
                    }
                    cellIndex++;
                }         
-               customers.add(user);
+               associates.add(user);
            }       
        } catch (IOException e) {
            e.getStackTrace();
        }
-       return customers;
+       return associates;
    }
 
 }

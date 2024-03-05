@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public Response addUser(UserDTO userDTO) {
 		
-		UserEntity user1 = userRepo.findByAssociateId(userDTO.getAssociateId());
+		UserEntity user1 = getUserById(userDTO.getAssociateId());
 		
 		if(user1 == null) {
 			return new Response("email Not found",false);
@@ -41,13 +41,17 @@ public class UserServiceImpl implements UserService{
 		userRepo.save(user1);
 		return new Response("Regisered Successfully",true);
 	}
+	
+	public UserEntity getUserById(String id) {
+		return userRepo.findByAssociateId(id);
+	}
 
 
 	@Override
 	public Response loginUser(LoginDTO loginDTO) {
 		
 		String msg = "";
-		UserEntity user1 = userRepo.findByAssociateId(loginDTO.getAssociateId());
+		UserEntity user1 = getUserById(loginDTO.getAssociateId());
 		
 		if(user1 != null) {
 			String password = loginDTO.getPassword();

@@ -1,6 +1,5 @@
 package com.example.server.entity;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,9 +21,9 @@ public class AdminUser {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer id;
-	 @Column(name="associate_id", length = 255)
+
 	private String associateId;
-	 @Column(name="password", length = 255)
+
 	private String password;
 	
 	
