@@ -4,6 +4,8 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import Home from './components/Home'
 import AdminDashboard from './components/AdminDashboard'
 import NoPage from './components/NoPage'
+import Register from './components/Register'
+import ForgotPassword from './components/ForgotPassword'
 
 const App = () => {
   return (
@@ -14,11 +16,11 @@ const App = () => {
           <Routes>
 
             <Route path="login" element={<Login />} />
-            {/* <Route path="register" element={<Register />} /> */}
+            <Route path="register" element={<Register />} />
             <Route path="/home" element={<Home />} />
             <Route path="/admin" element={<AdminDashboard />} />
 
-            {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
+            <Route path="/forgot-password" element={<ForgotPassword />} />
             {/* <Route path="/conform" element={<ConformOtp />} /> */}
             <Route path="*" element={<NoPage />} />
           </Routes>

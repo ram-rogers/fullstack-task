@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.server.dto.LoginDTO;
 import com.example.server.dto.UserDTO;
+import com.example.server.dto.VerifyDTO;
 import com.example.server.entity.UserEntity;
 import com.example.server.response.Response;
 
@@ -17,4 +18,9 @@ public interface UserService {
 	UserEntity getUserById(String id);
 	
 	List<UserEntity> viewUsers();
+	
+
+	Response generateOtpAndSend(String associateId);
+
+	Response confirmOtp(VerifyDTO verifyDTO);   
 }

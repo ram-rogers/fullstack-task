@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.server.dto.LoginDTO;
 import com.example.server.dto.UserDTO;
+import com.example.server.dto.VerifyDTO;
 import com.example.server.entity.UserEntity;
 import com.example.server.repo.UserRepo;
 import com.example.server.response.Response;
@@ -48,19 +49,29 @@ public class UserController {
 	}
 	
 	
-//	public ResponseEntity<String> checkIdExists(@PathVariable String id) {
-//        boolean exists = userService.checkIfIdExists(id);
-//        if (exists) {
-//            return ResponseEntity.ok("ID exists in the table.");
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }  
-	   
 	@PostMapping(path="/login")
 	public ResponseEntity<?> loginUser(@RequestBody LoginDTO loginDTO){
 		Response loginResponse = userService.loginUser(loginDTO);
 		return ResponseEntity.ok(loginResponse);
+	}
+	
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> sendEmail(@RequestBody String associateId) {
+    	Response mailSent = userService.generateOtpAndSend(associateId);
+    	return ResponseEntity.ok(mailSent);
+    	
+    
+    }
+    
+    @PostMapping(path="/confirm-otp")
+	public ResponseEntity<?> confirmOtp(@RequestBody VerifyDTO verifyDTO) {
+		
+		Response success = userService.confirmOtp(verifyDTO);
+		return ResponseEntity.ok(success);
+  
+		   
 	}
 
 }

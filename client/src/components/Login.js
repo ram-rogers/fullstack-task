@@ -106,6 +106,13 @@ const Login = () => {
                     .then((res) => {
                         console.log(res.data);
 
+                        if (res.data.message === "You haven't Registered yet. please register.") {
+                            toast.error("You haven't Registered yet. please register.")
+                            setTimeout(() => {
+                                navigate("/register");
+                            }, 2000);
+
+                        }
                         if (res.data.message === "Email Not exists") {
                             toast.error("Email Not Exists")
                         }
