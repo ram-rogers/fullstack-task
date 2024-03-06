@@ -6,6 +6,7 @@ import AdminDashboard from './components/AdminDashboard'
 import NoPage from './components/NoPage'
 import Register from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
+import ConfirmOtp from './components/ConfirmOtp'
 
 const App = () => {
   return (
@@ -21,7 +22,7 @@ const App = () => {
             <Route path="/admin" element={<AdminDashboard />} />
 
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            {/* <Route path="/conform" element={<ConformOtp />} /> */}
+            <Route path="/conform" element={<ConfirmOtp />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </Router>

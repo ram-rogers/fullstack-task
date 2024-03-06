@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.server.dto.ForgotPasswordDTO;
 import com.example.server.dto.LoginDTO;
 import com.example.server.dto.UserDTO;
 import com.example.server.dto.VerifyDTO;
@@ -33,10 +35,24 @@ public class UserController {
 	private UserRepo userRepo;
 	
 	
+	@SuppressWarnings("unused")
 	@GetMapping("/check/{id}")
-	public UserEntity getUserById(@PathVariable String id) {
-		return userRepo.findByAssociateId(id);
-	}
+	public Response getUserById(@PathVariable String id) {
+		
+		UserEntity user = userService.getUserById(id);
+		
+		if(user.getIsRegistered() == 0) {
+			return new Response("Your not registered. pls Register",false);
+		}
+		else if(user != null) {
+			return new Response("User Found",true);
+			
+		}
+		return new Response("User not Found",false);
+		
+
+		
+	}  
 	
 	@PostMapping(path="/register")
 	public Response addUser(@RequestBody UserDTO userDTO) {
@@ -58,8 +74,8 @@ public class UserController {
 
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> sendEmail(@RequestBody String associateId) {
-    	Response mailSent = userService.generateOtpAndSend(associateId);
+    public ResponseEntity<?> sendEmail(@RequestBody ForgotPasswordDTO forgotPasswordDTO) {
+    	Response mailSent = userService.generateOtpAndSend(forgotPasswordDTO);
     	return ResponseEntity.ok(mailSent);
     	
     
@@ -70,8 +86,16 @@ public class UserController {
 		
 		Response success = userService.confirmOtp(verifyDTO);
 		return ResponseEntity.ok(success);
-  
 		   
 	}
+    
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyUser(@RequestParam("token") String token) {
+        if (userService.verifyUser(token)) {
+            return ResponseEntity.ok("Email verification successful.");
+        } else {
+            return ResponseEntity.badRequest().body("Invalid verification token.");
+        }
+    }
 
 }

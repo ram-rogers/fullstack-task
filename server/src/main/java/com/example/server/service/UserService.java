@@ -2,6 +2,7 @@ package com.example.server.service;
 
 import java.util.List;
 
+import com.example.server.dto.ForgotPasswordDTO;
 import com.example.server.dto.LoginDTO;
 import com.example.server.dto.UserDTO;
 import com.example.server.dto.VerifyDTO;
@@ -20,7 +21,9 @@ public interface UserService {
 	List<UserEntity> viewUsers();
 	
 
-	Response generateOtpAndSend(String associateId);
+	Response generateOtpAndSend(ForgotPasswordDTO forgotPasswordDTO);
 
-	Response confirmOtp(VerifyDTO verifyDTO);   
+	Response confirmOtp(VerifyDTO verifyDTO);
+
+	boolean verifyUser(String token);   
 }

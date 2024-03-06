@@ -3,6 +3,7 @@ package com.example.server.service;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
@@ -11,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.server.repo.UserRepo;
-
+import com.example.server.dto.ForgotPasswordDTO;
 import com.example.server.dto.LoginDTO;
 import com.example.server.dto.UserDTO;
 import com.example.server.dto.VerifyDTO;
@@ -30,8 +31,35 @@ public class UserServiceImpl implements UserService{
 	
 	
 		
+	 private String generateVerificationToken() {
+	        return UUID.randomUUID().toString();
+	    }
+	 
+	 public boolean verifyUser(String token) {
+	        UserEntity user = userRepo.findByToken(token);
+	        if (user != null) {
+	            user.setEmailVerified(1);
+	            user.setToken("");
+	            userRepo.save(user);
+	            return true;
+	        }
+	        return false;  
+	    }
 	
+	 
+	 private void sendVerificationEmail(String email, String token) {
+	        SimpleMailMessage message = new SimpleMailMessage();
+	        message.setTo(email);
+	        message.setSubject("Email Verification");
+	        message.setText("Please click on the link below to verify your email:\n\n"
+	                + "http://localhost:8080/user/verify?token=" + token);
+	        javaMailSender.send(message);
+	    }
 	
+	 
+	 
+	 
+	 
 	@Override
 	public Response addUser(UserDTO userDTO) {
 		
@@ -43,8 +71,13 @@ public class UserServiceImpl implements UserService{
 		String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
 		user1.setPassword(encodedPassword);
 
-		userRepo.save(user1);
-		return new Response("Registered Successfully",true);
+		String token = generateVerificationToken();
+        user1.setToken(token);
+        user1.setIsRegistered(1);
+  
+        sendVerificationEmail(user1.getEmail(), token);
+        userRepo.save(user1);
+		return new Response("Registered Successfully. Check your mail to Verify your account",true);
 	}
 	
 	public UserEntity getUserById(String id) {
@@ -67,8 +100,14 @@ public class UserServiceImpl implements UserService{
 				Optional<UserEntity> user = userRepo.findOneByAssociateIdAndPassword(loginDTO.getAssociateId(), encodedPassword);
 				
 				if(user.isPresent()) {
-					if(user1.getIsRegistered() != 0) {
+					if(user1.getIsRegistered() == 0) {
 						return new Response("You haven't Registered yet. please register.",false);
+					}
+					if(user1.getIsRegistered() != 0 && user1.getEmailVerified() == 0) {
+						String token = generateVerificationToken();
+						sendVerificationEmail(user1.getEmail(), token);
+						user1.setToken(token);
+						return new Response("You haven't Verified your Email.please verify your Email",false);
 					}
 					
 					
@@ -107,22 +146,15 @@ public class UserServiceImpl implements UserService{
         javaMailSender.send(message);
     }
 
+
+	@SuppressWarnings("unused")
 	@Override
-	public Response generateOtpAndSend(String associateId) {
-		associateId = associateId.replace("{", "");
-		associateId = associateId.replace("}", "");
-		associateId = associateId.replace(":", "");
-		associateId = associateId.replace("\"", "");
-		associateId = associateId.substring(11, associateId.length());
-	
-		System.out.println(associateId);
+	public Response generateOtpAndSend(ForgotPasswordDTO forgotPasswordDTO) {
 		
-		
-    	UserEntity user1 = userRepo.findByAssociateId(associateId);
-    	System.out.println(user1.toString());
+    	UserEntity user1 = getUserById(forgotPasswordDTO.getAssociateId());
     	String email = user1.getEmail();
     	
-
+   
 		
 		if(user1 != null) {
 			Random random = new Random();
@@ -143,15 +175,14 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public Response confirmOtp(VerifyDTO verifyDTO) {
-		System.out.println("Hello");
-		UserEntity user1 = userRepo.findByEmail(verifyDTO.getEmail());
+
+		UserEntity user1 = getUserById(verifyDTO.getAssociateId());
 		if(user1 == null) {
-			return new Response("email Not found",false);
+			return new Response("User Not found",false);
 		}
 		String otp = "" + user1.getForgotPassword();
 		String confirmOtp = "" + verifyDTO.getOtp();
-		System.out.println(otp);
-		System.out.println(verifyDTO.getOtp());
+
 		if(otp.equals(confirmOtp)) {
 			user1.setPassword(passwordEncoder.encode(verifyDTO.getPassword()));
 			user1.setForgotPassword(null);

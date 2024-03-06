@@ -40,6 +40,7 @@ public class UserEntity {
 	private Integer emailVerified = 0;
 	@Column(name="forgot_password")
 	private Integer forgotPassword = 0;
+	private String token;
 	
 
 }

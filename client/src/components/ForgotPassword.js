@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +7,6 @@ const ForgotPassword = () => {
     const navigate = useNavigate();
 
     const [associateId, setAssociateId] = useState('');
-    const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
 
@@ -16,7 +14,7 @@ const ForgotPassword = () => {
         setIsLoading(true)
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/forgot-password', {
+            const response = await fetch('http://localhost:8080/user/forgot-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -24,6 +22,7 @@ const ForgotPassword = () => {
                 body: JSON.stringify({ associateId })
             })
             const data = await response.json();
+            console.log(data)
             setIsLoading(false)
 
             if (data.message === "Error Happened") {
@@ -32,7 +31,7 @@ const ForgotPassword = () => {
             else if (data.message === "Mail Sent") {
                 toast.success("Mail Sent Successfull")
                 setTimeout(() => {
-                    navigate("/conform");
+                    navigate("/conform", { state: { associateId: associateId } });
                 }, 2000);
             }
         } catch (error) {

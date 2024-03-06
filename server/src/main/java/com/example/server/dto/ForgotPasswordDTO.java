@@ -9,14 +9,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class VerifyDTO {
+@AllArgsConstructor
+public class ForgotPasswordDTO {
 	
-	
-	private String otp;
 	private String associateId;
-	private String password;
-	
 
 }

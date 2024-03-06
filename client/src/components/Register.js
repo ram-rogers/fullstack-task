@@ -11,6 +11,8 @@ import 'react-toastify/dist/ReactToastify.css';
 const Register = () => {
 
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
+
 
 
     const [formData, setFormData] = useState({
@@ -29,6 +31,8 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
+
         try {
             const response = await axios.post('http://localhost:8080/user/register', formData)
                 .then((res) => {
@@ -36,19 +40,23 @@ const Register = () => {
 
                     if (res.data.message === "Associate Id Not found") {
                         toast.error("Associate Id Not found. Your not allowed to register here.")
+                        setIsLoading(false)
+
                         setTimeout(() => {
                             navigate("/back");
                         }, 5000);
                     }
 
-                    else if (res.data.message === "Registered Successfully") {
-                        toast.success("Registered Successfully");
+                    else if (res.data.message === "Registered Successfully. Check your mail to Verify your account") {
+                        toast.success("Registered Successfully. Check your mail to Verify your account");
+                        setIsLoading(false)
+
                         setTimeout(() => {
                             navigate("/login");
                         }, 2000);
                     }
                     else {
-                        toast.error("Incorrect Email or Password")
+                        toast.error(res.data.message)
                     }
                 }, fail => console.error(fail));
         }
@@ -96,8 +104,8 @@ const Register = () => {
                     </div>
 
                     <div>
-                        <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Log in
+                        <button type="submit" disabled={isLoading} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            {isLoading ? 'Loading...' : 'Register'}
                         </button>
                     </div>
 

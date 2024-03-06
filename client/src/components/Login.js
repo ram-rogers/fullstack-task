@@ -24,23 +24,28 @@ const Login = () => {
     console.log(formData)
 
     const [associateIdExists, setAssociateIdExists] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
 
 
     const handleCheckAssociateId = async (e) => {
+
         e.preventDefault(e)
+        setIsLoading(true)
         if (formData.associateId === "admin") {
             try {
                 const response = await axios.get(`http://localhost:8080/admin/check/${formData.associateId}`);
                 console.log(formData.associateId)
                 console.log(response)
-                if (response?.data) {
-                    // toast.success("User Found")
+                if (response.data.message === "User Found") {
+                    toast.success("User Found")
+                    setIsLoading(false)
                     setAssociateIdExists(true);
-                    setErrorMessage('');
+
                 } else {
+                    setIsLoading(false)
+
                     setAssociateIdExists(false);
-                    setErrorMessage('Invalid associate ID');
                     toast.error('Invalid associate ID');
                 }
             } catch (error) {
@@ -52,20 +57,27 @@ const Login = () => {
         else {
             try {
                 const response = await axios.get(`http://localhost:8080/user/check/${formData.associateId}`);
+                setIsLoading(true)
                 console.log(formData.associateId)
                 console.log(response)
-                if (response?.data) {
-                    // toast.success("User Found")
+                if (response.data.message === "User Found") {
+                    toast.success("User Found")
+                    setIsLoading(false)
+
                     setAssociateIdExists(true);
-                    setErrorMessage('');
-                } else {
+                } else if (response.data.message === "Your not registered. pls Register") {
+                    setIsLoading(false)
+
                     setAssociateIdExists(false);
-                    setErrorMessage('Invalid associate ID');
-                    toast.error('Invalid associate ID');
+                    toast.error('Your not registered. pls Register');
+                    setTimeout(() => {
+                        navigate("/register");
+                    }, 2000);
                 }
+
             } catch (error) {
                 console.error('Error checking associate ID:', error);
-                toast.error('An error occurred. Please try again.');
+                toast.error('User Not Found.');
             }
 
         }
@@ -74,6 +86,7 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setIsLoading(true)
         if (formData.associateId === "admin") {
             try {
                 const response = await axios.post('http://localhost:8080/admin/login', formData)
@@ -81,18 +94,24 @@ const Login = () => {
                         console.log(res.data);
 
                         if (res.data.message === "Email Not exists") {
+                            setIsLoading(false)
                             toast.error("Email Not Exists")
                         }
                         else if (res.data.message === "Login Success") {
+                            setIsLoading(false)
                             toast.success("Login Success ");
                             setTimeout(() => {
                                 navigate("/admin");
                             }, 2000);
+
                         }
                         else {
                             toast.error("Incorrect Email or Password")
+                            setIsLoading(false)
+
                         }
                     }, fail => console.error(fail))
+
 
             }
             catch (error) {
@@ -107,6 +126,7 @@ const Login = () => {
                         console.log(res.data);
 
                         if (res.data.message === "You haven't Registered yet. please register.") {
+                            setIsLoading(false)
                             toast.error("You haven't Registered yet. please register.")
                             setTimeout(() => {
                                 navigate("/register");
@@ -114,16 +134,20 @@ const Login = () => {
 
                         }
                         if (res.data.message === "Email Not exists") {
+                            setIsLoading(false)
                             toast.error("Email Not Exists")
                         }
                         else if (res.data.message === "Login Success") {
+                            setIsLoading(false)
                             toast.success("Login Success ");
                             setTimeout(() => {
                                 navigate("/home");
                             }, 2000);
                         }
                         else {
-                            toast.error("Incorrect Email or Password")
+                            setIsLoading(false)
+                            toast.error(res.data.message)
+
                         }
                     }, fail => console.error(fail))
 
@@ -195,8 +219,8 @@ const Login = () => {
                             </div>
                         </div>
                         <div>
-                            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Log in
+                            <button type="submit" disabled={isLoading} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                {isLoading ? 'Loading...' : 'Log In'}
                             </button>
                         </div>
                     </form>

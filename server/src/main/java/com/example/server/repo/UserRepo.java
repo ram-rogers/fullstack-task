@@ -18,5 +18,6 @@ public interface UserRepo extends JpaRepository<UserEntity, Integer> {
 
 	Optional<UserEntity> findOneByAssociateIdAndPassword(String associateId, String encodedPassword);
 
+    UserEntity findByToken(String token);
 
 }
