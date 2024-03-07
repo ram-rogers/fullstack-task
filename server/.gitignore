@@ -31,4 +31,12 @@ build/
 
 ### VS Code ###
 .vscode/
-.application
+
+
+# Local configuration file (sdk path, etc)
+application.properties
+.properties
+
+project.properties
+*.properties
+application.properties
