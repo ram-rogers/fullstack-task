@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.server.dto.LoginDTO;
 import com.example.server.entity.AdminUser;
 import com.example.server.entity.UserEntity;
 import com.example.server.repo.AdminRepo;
@@ -30,18 +31,19 @@ public class AdminService {
 	}
 	
 
-	public Response adminLogin(AdminUser adminUser) {
+	@SuppressWarnings("unused")
+	public Response adminLogin(LoginDTO loginDTO) {
 		
-		AdminUser admin1 = getUserById(adminUser.getAssociateId());
+		AdminUser admin1 = getUserById(loginDTO.getAssociateId());
 		  
 		
 		if(admin1 != null) {  
-			String password = adminUser.getPassword();
+			String password = loginDTO.getPassword();
 			String encodedPassword = admin1.getPassword();
 			
 			Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
 			if(isPwdRight) {
-				Optional<AdminUser> admin = adminRepo.findOneByAssociateIdAndPassword(adminUser.getAssociateId(), encodedPassword);
+				Optional<AdminUser> admin = adminRepo.findOneByAssociateIdAndPassword(loginDTO.getAssociateId(), encodedPassword);
 				
 				if(admin.isPresent()) {
 					return new Response("Login Success",true);
@@ -75,8 +77,6 @@ public class AdminService {
         }
     }
 
-    public List<UserEntity> getAssociates(){
-        return userRepo.findAll();
-    }
+    
 
 }

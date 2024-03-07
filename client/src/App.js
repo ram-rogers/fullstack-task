@@ -7,6 +7,7 @@ import NoPage from './components/NoPage'
 import Register from './components/Register'
 import ForgotPassword from './components/ForgotPassword'
 import ConfirmOtp from './components/ConfirmOtp'
+import ListUsers from './ListUsers'
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
 
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/conform" element={<ConfirmOtp />} />
+            <Route path="/users" element={<ListUsers />} />
             <Route path="*" element={<NoPage />} />
           </Routes>
         </Router>

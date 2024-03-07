@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.server.dto.LoginDTO;
 import com.example.server.entity.AdminUser;
 import com.example.server.entity.UserEntity;
 import com.example.server.repo.AdminRepo;
+import com.example.server.repo.UserRepo;
 import com.example.server.response.Response;
 import com.example.server.service.AdminService;
 
@@ -30,6 +32,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminRepo adminRepo;
+	
+	@Autowired
+	private UserRepo userRepo;
 	
 	@Autowired
 	private AdminService adminService;
@@ -59,17 +64,29 @@ public class AdminController {
 		return adminRepo.findByAssociateId(associateId);
 	}
 	
+	@SuppressWarnings("unused")
 	@GetMapping("/check/{id}")
-	public AdminUser getUserById(@PathVariable String id) {
-		return adminRepo.findByAssociateId(id);
-	}
+	public Response getUserById(@PathVariable String id) {
+		
+		AdminUser user = adminService.getUserById(id);
+		
+		if(user != null) {
+			return new Response("User Found",true);
+			
+		}
+		return new Response("User not Found",false);
+		
+
+		
+	}  
+	
 
 	
 	   
 	
 	@PostMapping(path="/login")
-	public ResponseEntity<?> adminLogin(@RequestBody AdminUser adminUser){
-		Response response = adminService.adminLogin(adminUser);
+	public ResponseEntity<?> adminLogin(@RequestBody LoginDTO loginDTO){
+		Response response = adminService.adminLogin(loginDTO);
 		return ResponseEntity.ok(response);
 	}  
 	
@@ -82,8 +99,9 @@ public class AdminController {
     }
   
     @GetMapping("/list-associates")     
-    public ResponseEntity<List<UserEntity>> getAssociates(){
-        return new ResponseEntity<>(adminService.getAssociates(), HttpStatus.FOUND);
-    }
-
+    public List<UserEntity> getAssociates(){
+            return userRepo.findAll();
+        
+    }   
+   
 }

@@ -21,7 +21,7 @@ const Login = () => {
             [name]: value
         }));
     };
-    console.log(formData)
+    // console.log(formData)
 
     const [associateIdExists, setAssociateIdExists] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +35,10 @@ const Login = () => {
         if (formData.associateId === "admin") {
             try {
                 const response = await axios.get(`http://localhost:8080/admin/check/${formData.associateId}`);
-                console.log(formData.associateId)
+                // console.log(formData.associateId)
                 console.log(response)
                 if (response.data.message === "User Found") {
-                    toast.success("User Found")
+                    toast.success("Admin Found")
                     setIsLoading(false)
                     setAssociateIdExists(true);
 
@@ -77,7 +77,7 @@ const Login = () => {
 
             } catch (error) {
                 console.error('Error checking associate ID:', error);
-                toast.error('User Not Found.');
+                toast.error('User Not Found in this Organization.');
             }
 
         }
@@ -165,69 +165,75 @@ const Login = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <ToastContainer position="top-center" autoClose={2000} />
-            <div className="max-w-md w-full space-y-8">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Log in to your account
-                    </h2>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleCheckAssociateId}>
-                    <input type="hidden" name="remember" value="true" />
+        <div className='flex justify-center items-center'>
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <ToastContainer position="top-center" autoClose={2000} />
+                <div className="max-w-md w-full space-y-8">
                     <div>
-                        <label htmlFor="associateId" className="sr-only">Email</label>
-                        <input type="text"
-                            id="associateId"
-                            name="associateId"
-                            required
-                            className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                            placeholder="Associate Id"
-                            value={formData.associateId}
-                            onChange={handleChange} />
+                        <img className='h-10 ml-6' src="https://cognizant.scene7.com/is/content/cognizant/COG-Logo-2022-8?fmt=png-alpha" alt="" />
+                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                            Log in to your account
+                        </h2>
                     </div>
-                    {associateIdExists ? "" : (
+                    <form className="mt-8 space-y-6" onSubmit={handleCheckAssociateId}>
+                        <input type="hidden" name="remember" value="true" />
                         <div>
-                            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Log in
-                            </button>
-                        </div>
-                    )
-                    }
-                </form>
-                {!associateIdExists ? "" : (
-                    <form onSubmit={handleLogin}>
-                        <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
+                            <label htmlFor="associateId" className="sr-only">Email</label>
+                            <input type="text"
+                                id="associateId"
+                                name="associateId"
                                 required
-                                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password"
-                                value={formData.password}
+                                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Associate Id"
+                                value={formData.associateId}
                                 onChange={handleChange} />
                         </div>
-
-                        <div className="flex items-center justify-between mt-5">
-                            <div className="text-sm">
-                                <a href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
-                                    Forgot your password?
-                                </a>
+                        {associateIdExists ? "" : (
+                            <div>
+                                <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Log in
+                                </button>
                             </div>
-                        </div>
-                        <div>
-                            <button type="submit" disabled={isLoading} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                {isLoading ? 'Loading...' : 'Log In'}
-                            </button>
-                        </div>
+                        )
+                        }
                     </form>
-                )}
+                    {!associateIdExists ? "" : (
+                        <form onSubmit={handleLogin}>
+                            <div>
+                                <label htmlFor="password" className="sr-only">Password</label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Password"
+                                    value={formData.password}
+                                    onChange={handleChange} />
+                            </div>
 
-            </div>
-        </div >
+                            <div className="flex items-center justify-between mt-5">
+                                <div className="text-sm">
+                                    <a href="/forgot-password" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                        Forgot your password?
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" disabled={isLoading} className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    {isLoading ? 'Loading...' : 'Log In'}
+                                </button>
+                            </div>
+                        </form>
+
+                    )}
+                    <div className="text-sm text-center mt-4">
+                        Doesn't have an account? <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">Register here</a>
+                    </div>
+                </div>
+            </div >
+        </div>
 
 
 
