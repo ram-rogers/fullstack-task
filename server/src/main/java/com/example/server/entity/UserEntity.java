@@ -25,22 +25,32 @@ import lombok.ToString;
 public class UserEntity {
 	@Id
 //	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+    @Column(nullable = false)
 
+	private Integer id;
+	
+    @Column(nullable = false)
 	private String associateId;
-	@Column(name="name", length = 255)
+    
+	@Column(name="name", length = 255,nullable = false)
 	private String name;
-	@Column(name="email", length = 255)
+	
+	@Column(name="email", length = 255, nullable = false)
 	private String email;
+	
 	@Column(name="password", length = 255)
-	private String password;
+	private String password;    
+	
 	@Column(name="is_registered")
-	private Integer isRegistered = 0;
+	private String isRegistered = "No";
+	
 	@Column(name="is_email_verified")
-	private Integer emailVerified = 0;
+	private String emailVerified = "No";   
+	
 	@Column(name="forgot_password")
-	private Integer forgotPassword = 0;
-	private String token;
+	private Integer forgotPassword;    
+	
+	private String token;     
 	
 
 }

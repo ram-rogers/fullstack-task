@@ -7,8 +7,13 @@ import ListUsers from '../ListUsers';
 
 const AdminDashboard = () => {
     const [file, setFile] = useState(null);
-    const [view, setView] = useState(false);
-    const [user, setUser] = useState(false)
+
+    const [activeComponent, setActiveComponent] = useState(false);
+
+    const toggleUsers = () => {
+        setActiveComponent(!activeComponent);
+    };
+
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -16,11 +21,6 @@ const AdminDashboard = () => {
         //     position: toast.POSITION.BOTTOM_CENTER
         // });
     };
-
-    const viewUsers = () => {
-        setView(false)
-        setUser(true)
-    }
 
     const handleUpload = async () => {
         if (!file) {
@@ -43,7 +43,7 @@ const AdminDashboard = () => {
                 }
             });
             setFile();
-            setView(true)
+            setActiveComponent(true)
             console.log(response.data.Message)
             toast.success(response.data.Message);
         } catch (error) {
@@ -56,13 +56,13 @@ const AdminDashboard = () => {
 
 
 
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen bg-white dark:bg-slate-800">
             {/* <button>View</button> */}
             <div className="bg-gray-800 text-white p-4">
                 <h1 className="text-3xl font-bold">Welcome Admin</h1>
             </div>
-            <div className="flex-grow flex justify-center items-center">
-                <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
+            <div className="flex-grow flex justify-center items-center ">
+                <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 ">
                     <h2 className="text-2xl font-bold mb-6 text-center">Upload Excel File</h2>
                     <label htmlFor="file-upload" className="w-full cursor-pointer flex flex-col items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-lg py-6">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 mb-2" viewBox="0 0 20 20" fill="currentColor">
@@ -77,14 +77,26 @@ const AdminDashboard = () => {
 
 
             </div>
-            <div className='flex justify-center items-center m-8'>
-                {
-                    view && <button onClick={viewUsers} className='p-4 m-8 text-white font-semibold py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>View Users</button>
-                }
-                {
-                    user && <ListUsers />
-                }
+            <button
+                className="mt-8 mx-auto flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                onClick={toggleUsers}
+            >
+                View Users
+            </button>
+            <div className="mt-8 mb-8">
+                {activeComponent && <ListUsers />}
+
             </div>
+            {/* <div className='flex justify-center items-center m-8 bg-white dark:bg-slate-800'>
+                <div className="container mx-auto mt-2">
+                    <div className="flex justify-center space-x-4">
+
+
+                    </div>
+
+
+                </div>
+            </div> */}
             <Link
                 to="/login"
                 className="bg-red-500 text-white px-4 py-2 rounded absolute top-0 right-0 m-4"

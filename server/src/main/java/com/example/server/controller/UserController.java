@@ -41,7 +41,7 @@ public class UserController {
 		
 		UserEntity user = userService.getUserById(id);
 		
-		if(user.getIsRegistered() == 0) {
+		if(user.getIsRegistered().equalsIgnoreCase("No")) {
 			return new Response("Your not registered. pls Register",false);
 		}
 		else if(user != null) {
@@ -50,7 +50,7 @@ public class UserController {
 		}
 		return new Response("User not Found",false);
 		
-
+  
 		
 	}  
 	

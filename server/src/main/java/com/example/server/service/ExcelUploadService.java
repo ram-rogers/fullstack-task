@@ -45,8 +45,8 @@ public class ExcelUploadService {
                        case 2 -> user.setName(cell.getStringCellValue());
                        case 3 -> user.setEmail(cell.getStringCellValue());
                        case 4 -> user.setPassword(cell.getStringCellValue());
-                       case 5 -> user.setIsRegistered(0);
-                       case 6 -> user.setEmailVerified(0);
+                       case 5 -> user.setIsRegistered("No");
+                       case 6 -> user.setEmailVerified("No");
                        case 7 -> user.setForgotPassword(0);    
                        default -> {
                        } 

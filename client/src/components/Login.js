@@ -138,6 +138,7 @@ const Login = () => {
                             toast.error("Email Not Exists")
                         }
                         else if (res.data.message === "Login Success") {
+
                             setIsLoading(false)
                             toast.success("Login Success ");
                             setTimeout(() => {
@@ -165,20 +166,20 @@ const Login = () => {
 
 
     return (
-        <div className='flex justify-center items-center'>
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className='flex justify-center items-center text-white dark:bg-slate-800'>
+            <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <ToastContainer position="top-center" autoClose={2000} />
                 <div className="max-w-md w-full space-y-8">
                     <div>
-                        <img className='h-10 ml-6' src="https://cognizant.scene7.com/is/content/cognizant/COG-Logo-2022-8?fmt=png-alpha" alt="" />
-                        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                        <img className='h-full w-full' src="https://brandfetch.com/_next/image?url=https%3A%2F%2Fimages.prismic.io%2Fbrandfetch%2F0b02d32a-b7e8-4547-b52d-1274c5710171_cog_prim_lg_hrz_r_rgb_white_2022.png%3Fauto%3Dcompress%2Cformat&w=3840&q=75" alt="" />
+                        <h2 className="mt-3 text-center text-3xl font-extrabold text-white-900">
                             Log in to your account
                         </h2>
                     </div>
                     <form className="mt-8 space-y-6" onSubmit={handleCheckAssociateId}>
                         <input type="hidden" name="remember" value="true" />
                         <div>
-                            <label htmlFor="associateId" className="sr-only">Email</label>
+                            <label htmlFor="associateId" className="sr-only">Associate Id</label>
                             <input type="text"
                                 id="associateId"
                                 name="associateId"

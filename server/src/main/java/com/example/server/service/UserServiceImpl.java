@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService{
 	 public boolean verifyUser(String token) {
 	        UserEntity user = userRepo.findByToken(token);
 	        if (user != null) {
-	            user.setEmailVerified(1);
+	            user.setEmailVerified("Yes");
 	            user.setToken("");
 	            userRepo.save(user);
 	            return true;
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService{
 
 		String token = generateVerificationToken();
         user1.setToken(token);
-        user1.setIsRegistered(1);
+        user1.setIsRegistered("Yes");
   
         sendVerificationEmail(user1.getEmail(), token);
         userRepo.save(user1);
@@ -100,10 +100,10 @@ public class UserServiceImpl implements UserService{
 				Optional<UserEntity> user = userRepo.findOneByAssociateIdAndPassword(loginDTO.getAssociateId(), encodedPassword);
 				
 				if(user.isPresent()) {
-					if(user1.getIsRegistered() == 0) {
+					if(user1.getIsRegistered().equalsIgnoreCase("No")) {
 						return new Response("You haven't Registered yet. please register.",false);
 					}
-					if(user1.getIsRegistered() != 0 && user1.getEmailVerified() == 0) {
+					if(user1.getIsRegistered().equalsIgnoreCase("No") && user1.getEmailVerified().equalsIgnoreCase("No")) {
 						String token = generateVerificationToken();
 						sendVerificationEmail(user1.getEmail(), token);
 						user1.setToken(token);
@@ -196,6 +196,6 @@ public class UserServiceImpl implements UserService{
 		
 	
 	}
-
+ 
 
 }
