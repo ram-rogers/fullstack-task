@@ -48,13 +48,14 @@ const ForgotPassword = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center text-white bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
 
             <ToastContainer position="top-center" autoClose={2000} />
             <div className="max-w-md w-full space-y-8">
 
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <img className='h-15 w-15' src="https://brandfetch.com/_next/image?url=https%3A%2F%2Fimages.prismic.io%2Fbrandfetch%2F0b02d32a-b7e8-4547-b52d-1274c5710171_cog_prim_lg_hrz_r_rgb_white_2022.png%3Fauto%3Dcompress%2Cformat&w=3840&q=75" alt="" />
+                    <h2 className="mt-3 text-center text-3xl font-extrabold text-white-900">
                         Forgot Your Passowrd ?
                     </h2>
                 </div>

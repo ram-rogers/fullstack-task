@@ -33,9 +33,10 @@ function BlogPost() {
     };
 
     return (
-        <div className="flex flex-col h-screen w-full p-4 text-white bg-slate-800">
-            <header className="mb-8 font-bold">
-                <h1 className="text-xl font-bold">Blog App</h1>
+        <div className="flex flex-col h-screen w-full p-4 text-white bg-gray-900">
+            <header className="mb-8 font-bold flex flex-row justify-start items-center gap-4">
+                <img className='h-9 w-9' src="https://img-c.udemycdn.com/organization_favicon/32x32/79488_3202.png" alt="" />
+                Blog App
             </header>
             <main>
                 <section className="max-w-screen-xl mx-auto">

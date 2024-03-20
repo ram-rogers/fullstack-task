@@ -8,6 +8,7 @@ import ForgotPassword from './components/ForgotPassword'
 import ConfirmOtp from './components/ConfirmOtp'
 import ListUsers from './ListUsers'
 import BlogPost from './components/BlogPost'
+import Sign from './components/Sign'
 
 const App = () => {
   return (
@@ -19,15 +20,13 @@ const App = () => {
 
             <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
-            {/* <Route path="/home" element={<Home />} /> */}
+            <Route path="/sign" element={<Sign />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/home" element={<BlogPost />} />
-
-
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/conform" element={<ConfirmOtp />} />
             <Route path="/users" element={<ListUsers />} />
-            <Route path="*" element={<NoPage />} />
+            <Route path="*" element={<Sign />} />
           </Routes>
         </Router>
       </header>

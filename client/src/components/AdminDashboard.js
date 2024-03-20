@@ -56,11 +56,11 @@ const AdminDashboard = () => {
 
 
 
-        <div className="flex flex-col h-screen bg-white dark:bg-slate-800">
-            {/* <button>View</button> */}
-            <div className="bg-gray-800 text-white p-4">
-                <h1 className="text-3xl font-bold">Welcome Admin</h1>
-            </div>
+        <div className="flex flex-col h-screen bg-gray-900">
+            <header className="mb-8 font-bold flex flex-row justify-start items-center gap-4 text-white mt-5 ml-3" >
+                <img className='h-9 w-9' src="https://img-c.udemycdn.com/organization_favicon/32x32/79488_3202.png" alt="" />
+                Welcome Admin
+            </header>
             <div className="flex-grow flex justify-center items-center ">
                 <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 ">
                     <h2 className="text-2xl font-bold mb-6 text-center">Upload Excel File</h2>
@@ -87,16 +87,7 @@ const AdminDashboard = () => {
                 {activeComponent && <ListUsers />}
 
             </div>
-            {/* <div className='flex justify-center items-center m-8 bg-white dark:bg-slate-800'>
-                <div className="container mx-auto mt-2">
-                    <div className="flex justify-center space-x-4">
 
-
-                    </div>
-
-
-                </div>
-            </div> */}
             <Link
                 to="/login"
                 className="bg-red-500 text-white px-4 py-2 rounded absolute top-0 right-0 m-4"

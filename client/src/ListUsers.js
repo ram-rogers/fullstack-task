@@ -78,7 +78,7 @@ const ListUsers = () => {
         //         </table>
         //     </div>
         // </div>
-        <div className="ag-theme-quartz-dark" style={{ width: '100%', height: 350 }}>
+        <div className="ag-theme-quartz-dark" style={{ width: '100%', height: 450 }}>
             <AgGridReact
                 rowData={data}
                 columnDefs={columnDefs}

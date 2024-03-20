@@ -166,7 +166,7 @@ const Login = () => {
 
 
     return (
-        <div className='flex justify-center items-center text-white dark:bg-slate-800'>
+        <div className='flex justify-center items-center text-white bg-gray-900'>
             <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
                 <ToastContainer position="top-center" autoClose={2000} />
                 <div className="max-w-md w-full space-y-8">

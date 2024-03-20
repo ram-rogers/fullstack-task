@@ -103,13 +103,13 @@ public class UserServiceImpl implements UserService{
 					if(user1.getIsRegistered().equalsIgnoreCase("No")) {
 						return new Response("You haven't Registered yet. please register.",false);
 					}
-					if(user1.getIsRegistered().equalsIgnoreCase("No") && user1.getEmailVerified().equalsIgnoreCase("No")) {
+					if(user1.getIsRegistered().equalsIgnoreCase("Yes") && user1.getEmailVerified().equalsIgnoreCase("No")) {
 						String token = generateVerificationToken();
 						sendVerificationEmail(user1.getEmail(), token);
 						user1.setToken(token);
 						return new Response("You haven't Verified your Email.please verify your Email",false);
 					}
-					
+					  
 					
 					return new Response("Login Success",true);
 				}
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService{
 		UserEntity user1 = getUserById(verifyDTO.getAssociateId());
 		if(user1 == null) {
 			return new Response("User Not found",false);
-		}
+		}  
 		String otp = "" + user1.getForgotPassword();
 		String confirmOtp = "" + verifyDTO.getOtp();
 
